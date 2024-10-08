@@ -181,8 +181,13 @@ class CasdoorFlutterSdkMobile extends CasdoorFlutterSdkPlatform {
     });
 
     browser.setOnShouldOverrideUrlLoadingCallback((returnUrl) async {
+      print("returnUrl $returnUrl");
+      print(returnUrl.toString());
+      print("returnUrl <<<<<<<<<<<<<<<<<<<<");
+      print(params.redirectUri);
+
       if (returnUrl != null) {
-        if (returnUrl.scheme == params.callbackUrlScheme) {
+        if (returnUrl.toString().contains(params.redirectUri)) {
           isFinished.complete(returnUrl.toString());
           browser.close();
           return NavigationActionPolicy.CANCEL;

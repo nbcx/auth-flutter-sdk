@@ -80,6 +80,7 @@ class Casdoor {
     return CasdoorOauth.authenticate(CasdoorSdkParams(
       url: getSigninUrl(scope: scope, state: state).toString(),
       callbackUrlScheme: config.callbackUrlScheme,
+      redirectUri: config.redirectUri,
     ));
   }
 
@@ -92,6 +93,7 @@ class Casdoor {
     return CasdoorOauth.authenticate(CasdoorSdkParams(
       url: getSigninUrl(scope: scope, state: state).toString(),
       callbackUrlScheme: config.callbackUrlScheme,
+      redirectUri: config.redirectUri,
       buildContext: buildContext,
       showFullscreen: true,
       isMaterialStyle: isMaterialStyle ?? true,

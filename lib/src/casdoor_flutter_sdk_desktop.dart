@@ -19,7 +19,7 @@ class CasdoorFlutterSdkDesktop extends CasdoorFlutterSdkPlatform {
     final Directory cacheDirRoot = await getApplicationCacheDirectory();
     return p.join(
       cacheDirRoot.path,
-      'web_cache',
+      'casdoor',
     );
   }
 
@@ -40,6 +40,10 @@ class CasdoorFlutterSdkDesktop extends CasdoorFlutterSdkPlatform {
 
   @override
   Future<String> authenticate(CasdoorSdkParams params) async {
+    await WebviewWindow.clearAll(
+      userDataFolderWindows: await _getCacheDirWebPath(),
+    );
+    print('clear complete');
     final bool isWebviewAvailable = await WebviewWindow.isWebviewAvailable();
 
     if (isWindowOpen == true) {
@@ -50,29 +54,44 @@ class CasdoorFlutterSdkDesktop extends CasdoorFlutterSdkPlatform {
       final Completer<String> isWindowClosed = Completer<String>();
 
       String? returnUrl;
-      final String cacheDirWebPath = await _getCacheDirWebPath();
+      // final String cacheDirWebPath = await _getCacheDirWebPath();
 
       final webview = await WebviewWindow.create(
         configuration: CreateConfiguration(
           windowWidth: 400,
           windowHeight: 640,
-          title: 'Login',
-          titleBarTopPadding: Platform.isMacOS ? 30 : 0,
-          titleBarHeight: 0,
-          userDataFolderWindows: cacheDirWebPath,
+          // title: 'Login',
+          userDataFolderWindows: await _getCacheDirWebPath(),
+          titleBarTopPadding: Platform.isMacOS ? 20 : 0,
+          // titleBarHeight: 0,
         ),
       );
+
+      print(params.url);
       webview
+        ..setApplicationNameForUserAgent(" WebviewExample/1.0.0")
         ..launch(params.url)
-        // todo: wait check
-        // ..addOnUrlRequestCallback((requestUrl) {
-        //   final uri = Uri.parse(requestUrl);
-        //   if (uri.scheme == params.callbackUrlScheme) {
-        //     returnUrl = requestUrl;
-        //     webview.close();
-        //     isWindowClosed.complete(returnUrl);
-        //   }
-        // })
+        ..setOnUrlRequestCallback((url) {
+          print("setOnUrlRequestCallback before");
+          final uri = Uri.parse(url);
+
+          print(uri.scheme);
+          print(params.callbackUrlScheme);
+          print(url);
+
+          if (url.contains(params.redirectUri)) {
+            returnUrl = url;
+            webview.close();
+            isWindowClosed.complete(returnUrl);
+            print("returnUrl");
+            print(returnUrl);
+          }
+          // grant navigation request
+
+          print("setOnUrlRequestCallback after");
+          return true;
+        })
+        // ..openDevToolsWindow()
         ..onClose.whenComplete(() {
           if (returnUrl != null) {
             if (isWindowClosed.isCompleted == false) {
@@ -81,8 +100,9 @@ class CasdoorFlutterSdkDesktop extends CasdoorFlutterSdkPlatform {
           } else {
             isWindowClosed.completeError(CasdoorAuthCancelledException);
           }
-
           isWindowOpen = false;
+
+          print("when complete");
         });
 
       isWindowOpen = true;

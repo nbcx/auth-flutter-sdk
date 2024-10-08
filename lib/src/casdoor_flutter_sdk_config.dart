@@ -36,6 +36,7 @@ class CasdoorSdkParams {
   CasdoorSdkParams({
     required this.url,
     required this.callbackUrlScheme,
+    required this.redirectUri,
     this.buildContext,
     this.showFullscreen,
     this.isMaterialStyle,
@@ -45,6 +46,7 @@ class CasdoorSdkParams {
 
   final String url;
   final String callbackUrlScheme;
+  final String redirectUri;
   BuildContext? buildContext;
   bool? showFullscreen;
   bool? isMaterialStyle;
@@ -54,6 +56,7 @@ class CasdoorSdkParams {
   CasdoorSdkParams copyWith({
     String? url,
     String? callbackUrlScheme,
+    String? redirectUri,
     BuildContext? buildContext,
     bool? showFullscreen,
     bool? isMaterialStyle,
@@ -62,6 +65,7 @@ class CasdoorSdkParams {
   }) =>
       CasdoorSdkParams(
         url: url ?? this.url,
+        redirectUri: redirectUri ?? this.redirectUri,
         callbackUrlScheme: callbackUrlScheme ?? this.callbackUrlScheme,
         buildContext: buildContext ?? this.buildContext,
         showFullscreen: showFullscreen ?? this.showFullscreen,
