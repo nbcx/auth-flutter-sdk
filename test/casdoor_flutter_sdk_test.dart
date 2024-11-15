@@ -1,5 +1,5 @@
 import 'package:auth_flutter_sdk/auth_flutter_sdk.dart';
-import 'package:auth_flutter_sdk/src/casdoor_flutter_sdk_method_channel.dart';
+import 'package:auth_flutter_sdk/src/auth_flutter_sdk_method_channel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 

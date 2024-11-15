@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:auth_flutter_sdk/src/casdoor_flutter_sdk_config.dart';
-import 'package:auth_flutter_sdk/src/casdoor_flutter_sdk_oauth.dart';
+import 'package:auth_flutter_sdk/src/auth_flutter_sdk_config.dart';
+import 'package:auth_flutter_sdk/src/auth_flutter_sdk_oauth.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;

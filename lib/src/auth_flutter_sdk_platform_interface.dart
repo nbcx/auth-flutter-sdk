@@ -1,7 +1,7 @@
 import 'package:auth_flutter_sdk/auth_flutter_sdk.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'casdoor_flutter_sdk_method_channel.dart';
+import 'auth_flutter_sdk_method_channel.dart';
 
 abstract class CasdoorFlutterSdkPlatform extends PlatformInterface {
   // Returns singleton instance.
